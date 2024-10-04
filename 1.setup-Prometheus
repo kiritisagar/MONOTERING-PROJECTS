@@ -1,0 +1,59 @@
+# Step 1: Install Prometheus
+Update your system:
+sudo apt update && sudo apt upgrade -y
+
+# Create a user for Prometheus:
+sudo useradd --no-create-home --shell /bin/false prometheus
+
+# Create directories for Prometheus:
+sudo mkdir /etc/prometheus
+sudo mkdir /var/lib/prometheus
+
+# Set ownership for the created directories:
+sudo chown prometheus:prometheus /etc/prometheus
+sudo chown prometheus:prometheus /var/lib/prometheus
+
+# Download Prometheus: Find the latest version on the Prometheus releases page. Replace VERSION in the command below with the latest version number.
+cd /tmp
+wget https://github.com/prometheus/prometheus/releases/download/vVERSION/prometheus-VERSION.linux-amd64.tar.gz
+
+#Extract the downloaded file:
+tar xvf prometheus-VERSION.linux-amd64.tar.gz
+
+# Move the binaries to /usr/local/bin:
+sudo mv prometheus-VERSION.linux-amd64/prometheus /usr/local/bin/
+sudo mv prometheus-VERSION.linux-amd64/promtool /usr/local/bin/
+
+# Move the configuration file and set ownership:
+sudo mv prometheus-VERSION.linux-amd64/prometheus.yml /etc/prometheus/
+sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
+
+Create a systemd service file for Prometheus:
+sudo nano /etc/systemd/system/prometheus.service
+
+# Add the following configuration:
+
+ini
+Copy code
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+ExecStart=/usr/local/bin/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/var/lib/prometheus/ \
+  --web.listen-address="0.0.0.0:9090"
+
+[Install]
+WantedBy=multi-user.target
+
+Start and enable the Prometheus service:
+sudo systemctl daemon-reload
+sudo systemctl start prometheus
+sudo systemctl enable prometheus
+Verify Prometheus is running: Open your web browser and navigate to http://your_server_ip:9090. You should see the Prometheus dashboard.
+
