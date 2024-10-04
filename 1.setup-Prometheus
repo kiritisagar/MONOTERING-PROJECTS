@@ -28,12 +28,12 @@ sudo mv prometheus-VERSION.linux-amd64/prometheus.yml /etc/prometheus/
 sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
 
 Create a systemd service file for Prometheus:
-sudo nano /etc/systemd/system/prometheus.service
+sudo vi /etc/systemd/system/prometheus.service
 
 # Add the following configuration:
 
-ini
-Copy code
+init
+
 [Unit]
 Description=Prometheus
 Wants=network-online.target
@@ -54,5 +54,7 @@ Start and enable the Prometheus service:
 sudo systemctl daemon-reload
 sudo systemctl start prometheus
 sudo systemctl enable prometheus
-Verify Prometheus is running: Open your web browser and navigate to http://your_server_ip:9090. You should see the Prometheus dashboard.
+
+# Verify Prometheus is running: 
+Open your web browser and navigate to http://your_server_ip:9090. You should see the Prometheus dashboard.
 
