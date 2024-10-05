@@ -2,59 +2,20 @@
 Update your system:
 sudo apt update && sudo apt upgrade -y
 
-# Create a user for Prometheus:
-sudo useradd --no-create-home --shell /bin/false prometheus
+# goto official site of prometheus:
+prometheus.io
 
-# Create directories for Prometheus:
-sudo mkdir /etc/prometheus
-sudo mkdir /var/lib/prometheus
+#Download Prometheus
+## copy link adress and paste on server
+https://github.com/prometheus/prometheus/releases/download/v2.55.0-rc.0/prometheus-2.55.0-rc.0.linux-amd64.tar.gz
 
-# Set ownership for the created directories:
-sudo chown prometheus:prometheus /etc/prometheus
-sudo chown prometheus:prometheus /var/lib/prometheus
+# Alternatively, you can run the following commands to download the latest version of Prometheus:
+cd /opt
+sudo wget https://github.com/prometheus/prometheus/releases/download/v2.46.0/prometheus-2.46.0.linux-amd64.tar.gz
 
-# Download Prometheus tarball:
-cd /tmp
-wget https://github.com/prometheus/prometheus/releases/download/v2.46.0/prometheus-2.46.0.linux-amd64.tar.gz
+# Step 3: Extract Prometheus Files
+sudo tar -xvf prometheus-*.tar.gz
 
-# Extract the tarball:
-tar xvf prometheus-2.46.0.linux-amd64.tar.gz
-
-# Move the binaries to /usr/local/bin:
-sudo mv prometheus-2.46.0.linux-amd64/prometheus /usr/local/bin/
-sudo mv prometheus-2.46.0.linux-amd64/promtool /usr/local/bin/
-
-# Move the configuration files:
-sudo mv prometheus-2.46.0.linux-amd64/prometheus.yml /etc/prometheus/
-
-# Change ownership of the Prometheus directories:
-sudo chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
-
-# Create a systemd service file for Prometheus:
-sudo vi /etc/systemd/system/prometheus.service
-
-# Add the following configuration: init scripts
-
-[Unit]
-Description=Prometheus
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-User=prometheus
-Group=prometheus
-ExecStart=/usr/local/bin/prometheus \
-  --config.file=/etc/prometheus/prometheus.yml \
-  --storage.tsdb.path=/var/lib/prometheus/ \
-  --web.listen-address="0.0.0.0:9090"
-
-[Install]
-WantedBy=multi-user.target
-
-# Start and enable the Prometheus service:
-sudo systemctl daemon-reload
-sudo systemctl start prometheus
-sudo systemctl enable prometheus
 
 # Verify Prometheus is running: 
 Open your web browser and navigate to http://your_server_ip:9090. You should see the Prometheus dashboard.
