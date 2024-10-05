@@ -16,7 +16,14 @@ sudo wget https://github.com/prometheus/prometheus/releases/download/v2.46.0/pro
 # Step 3: Extract Prometheus Files
 sudo tar -xvf prometheus-*.tar.gz
 
+# go into prometheus folder
+cd prometheus
 
-# Verify Prometheus is running: 
-Open your web browser and navigate to http://your_server_ip:9090. You should see the Prometheus dashboard.
+# step 4:Start the Prometheus service.
+./prometheus --config.file=prometheus.yml --storage.tsdb.path=/data &
+ or
+./prometheus
+
+# Step : Access Prometheus Dashboard: 
+Open your web browser and navigate to http://your_server_ip:9090.
 
