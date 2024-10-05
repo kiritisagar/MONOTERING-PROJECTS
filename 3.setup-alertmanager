@@ -1,0 +1,14 @@
+Download Alertmanager from the official site:
+
+wget https://github.com/prometheus/alertmanager/releases/download/v0.27.0/alertmanager-0.27.0.linux-amd64.tar.gz
+
+Extract the downloaded file:
+
+bash
+Copy code
+tar -xvzf alertmanager-0.27.0.linux-amd64.tar.gz
+Navigate to the extracted folder:
+
+bash
+Copy code
+cd alertmanager-0.27.0.linux-amd64
