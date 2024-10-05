@@ -22,7 +22,7 @@ cd prometheus
 # step 4:Start the Prometheus service.
 ./prometheus --config.file=prometheus.yml --storage.tsdb.path=/data &
  or
-./prometheus
+./prometheus &
 
 # Step : Access Prometheus Dashboard: 
 Open your web browser and navigate to http://your_server_ip:9090.
